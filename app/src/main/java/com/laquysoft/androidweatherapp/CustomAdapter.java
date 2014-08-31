@@ -42,11 +42,11 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
 
 
         TextView txtTitle = (TextView) view.findViewById(R.id.place);
-        TextView weath1 = (TextView) view.findViewById(R.id.textView);
-        TextView weath2 = (TextView) view.findViewById(R.id.textView2);
-        TextView weath3 = (TextView) view.findViewById(R.id.textView3);
-        TextView weath4 = (TextView) view.findViewById(R.id.textView4);
-        TextView weath5 = (TextView) view.findViewById(R.id.textView5);
+        TextView weath1 = (TextView) view.findViewById(R.id.first);
+        TextView weath2 = (TextView) view.findViewById(R.id.second);
+        TextView weath3 = (TextView) view.findViewById(R.id.third);
+        TextView weath4 = (TextView) view.findViewById(R.id.fourth);
+        TextView weath5 = (TextView) view.findViewById(R.id.fifth);
 
         PlaceWeatherForecast row_pos = placeWeatherForecastList.get(position);
         txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
