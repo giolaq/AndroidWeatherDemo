@@ -35,7 +35,6 @@ public class WeatherAppMainModule {
 
         RestAdapter adapter =
                 new RestAdapter.Builder().setEndpoint("https://api.worldweatheronline.com/free/v1").
-                        setConverter(new GsonConverter(gson)).
                         setLogLevel(RestAdapter.LogLevel.FULL).
                         setLog(new RestAdapter.Log() {
                             @Override

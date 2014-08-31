@@ -134,26 +134,25 @@ public class WeatherListFragment extends ListFragment implements
 
     public void displayResults(PlaceWeatherForecast placeWeatherForecasts) {
 
-        if (placeWeatherForecasts.getData() == null )
-            Log.d(TAG, "Data == null");
 
-        Log.d(TAG, "Cloud cover " + placeWeatherForecasts.getData().getCurrentCondition().get(0).getCloudcover());
-       /* List<String> strings = toStringList(placeWeatherForecasts);
+
+        Log.d(TAG, placeWeatherForecasts.getData().getRequest().get(0).getQuery());
+        List<String> strings = toStringList(placeWeatherForecasts.getData().getWeather());
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
 
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
-        viewById.setAdapter(adapter);*/
+        viewById.setAdapter(adapter);
     }
 
 
-    private static List<String> toStringList(List<PlaceWeatherForecast> placeWeatherForecasts) {
+    private static List<String> toStringList(List<PlaceWeatherForecast.Weather> placeWeatherForecasts) {
 
         ArrayList<String> strings = new ArrayList<String>(placeWeatherForecasts.size());
 
-        for (PlaceWeatherForecast placeWeatherForecast : placeWeatherForecasts) {
+        for (PlaceWeatherForecast.Weather weather : placeWeatherForecasts) {
 
-            //strings.add(placeWeatherForecast.getCurrentCondition());
+            strings.add(weather.getDate() + " " + weather.getWeatherDesc().get(0).getValue());
         }
 
         return strings;
