@@ -35,7 +35,7 @@ import javax.inject.Inject;
 
 
 public class WeatherAppMainActivity extends ActionBarActivity implements
-        Callback<PlaceWeatherForecast> {
+        Callback<List<PlaceWeatherForecast>> {
 
 
     final static String TAG = WeatherAppMainActivity.class.getName();
@@ -59,9 +59,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         String serialized = prefs.getString("city_list", null);
         if ( serialized == null ) {
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(default_cities, ",")));
-            city_list.add("London");
-            city_list.add("Rome");
-            city_list.add("New York");
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("city_list", TextUtils.join(",", city_list));
             editor.commit();
@@ -70,8 +67,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
 
         }
-
-
 
 
         if (savedInstanceState == null) {
@@ -122,7 +117,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onSuccess(PlaceWeatherForecast result) {
+    public void onSuccess(List<PlaceWeatherForecast> result) {
         Log.d("PlaceWeatherForecastLoader", "onSuccess");
 
         listFragment.displayResults(result);

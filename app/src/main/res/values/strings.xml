@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Android Weather App</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Weather Forecasts</string>
     <string name="action_settings">Settings</string>
 
 </resources>

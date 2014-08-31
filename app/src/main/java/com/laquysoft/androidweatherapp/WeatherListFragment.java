@@ -1,7 +1,9 @@
 package com.laquysoft.androidweatherapp;
 
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import org.w3c.dom.Text;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -43,7 +46,7 @@ import javax.inject.Inject;
  * Created by joaobiriba on 29/08/14.
  */
 public class WeatherListFragment extends ListFragment implements
-        Callback<PlaceWeatherForecast> {
+        Callback<List<PlaceWeatherForecast>>{
 
     final static String TAG = WeatherListFragment.class.getName();
 
@@ -51,13 +54,15 @@ public class WeatherListFragment extends ListFragment implements
     WorldWeatherOnline worldWeatherOnlineService;
 
     PlaceWeatherForecastLoader loader;
-    private TextView placeNameTv;
+
+    private List<PlaceWeatherForecast> placeWeatherForecastList;
+
+    //CustomAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_weather_app_main, container, false);
-        placeNameTv = (TextView) rootView.findViewById(R.id.textView);
         return rootView;
     }
 
@@ -69,14 +74,19 @@ public class WeatherListFragment extends ListFragment implements
 
         loader = new PlaceWeatherForecastLoader(getActivity(), worldWeatherOnlineService);
 
-        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
 
         setHasOptionsMenu(true);
         ActionBar ab = ((ActionBarActivity) getActivity())
                 .getSupportActionBar();
-        
-        
-        
+
+        placeWeatherForecastList = new LinkedList<PlaceWeatherForecast>();
+
+
+       // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
+       // setListAdapter(adapter);
+
+        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+
     }
 
     public void refresh() {
@@ -111,7 +121,7 @@ public class WeatherListFragment extends ListFragment implements
 
             case R.id.add_place:
 
-			    //Add place to list
+                //Add place to list
                 break;
 
             case R.id.refresh:
@@ -133,45 +143,45 @@ public class WeatherListFragment extends ListFragment implements
     }
 
     @Override
-    public void onSuccess(PlaceWeatherForecast result) {
+    public void onSuccess(List<PlaceWeatherForecast> result) {
         Log.d("PlaceWeatherForecastLoader", "onSuccess");
 
         displayResults(result);
     }
 
 
-    public void displayResults(PlaceWeatherForecast placeWeatherForecasts) {
+    public void displayResults(List<PlaceWeatherForecast> placeWeatherForecasts) {
 
 
-
-        Log.d(TAG, placeWeatherForecasts.getData().getRequest().get(0).getQuery());
-        List<String> strings = toStringList(placeWeatherForecasts.getData().getWeather());
-
-        placeNameTv.setText(placeWeatherForecasts.getData().getRequest().get(0).getQuery());
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
-
+        Log.d(TAG, " Display results");
+        List<String> strings = toStringList(placeWeatherForecasts);
+       //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.textView, strings);
+        CustomAdapter adapter = new CustomAdapter(getActivity(),placeWeatherForecasts);
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
     }
 
 
-    private static List<String> toStringList(List<PlaceWeatherForecast.Weather> placeWeatherForecasts) {
+    private static List<String> toStringList(List<PlaceWeatherForecast> placeWeatherForecasts) {
 
         ArrayList<String> strings = new ArrayList<String>(placeWeatherForecasts.size());
-        
 
-        for (PlaceWeatherForecast.Weather weather : placeWeatherForecasts) {
 
-            strings.add(weather.getDate() + " " + weather.getWeatherDesc().get(0).getValue());
+        for (PlaceWeatherForecast weatherForecast : placeWeatherForecasts) {
+            strings.add(weatherForecast.getData().getRequest().get(0).getQuery());
+
+            for (PlaceWeatherForecast.Weather weather : weatherForecast.getData().getWeather()) {
+
+                strings.add(weather.getDate() + " " + weather.getWeatherDesc().get(0).getValue());
+            }
+
         }
 
         return strings;
     }
 
 
-
-    static class PlaceWeatherForecastLoader extends RetrofitLoader<PlaceWeatherForecast, WorldWeatherOnline>
-    {
+    static class PlaceWeatherForecastLoader extends RetrofitLoader<List<PlaceWeatherForecast>, WorldWeatherOnline> {
 
         public PlaceWeatherForecastLoader(Context context, WorldWeatherOnline service) {
 
@@ -179,14 +189,20 @@ public class WeatherListFragment extends ListFragment implements
         }
 
         @Override
-        public PlaceWeatherForecast call(WorldWeatherOnline service, SharedPreferences prefs) {
+        public List<PlaceWeatherForecast> call(WorldWeatherOnline service, SharedPreferences prefs) {
 
+            List<PlaceWeatherForecast> forecasts = new LinkedList<PlaceWeatherForecast>();
             Log.d(TAG, "call");
             String serialized = prefs.getString("city_list", null);
             List<String> city_list = Arrays.asList(TextUtils.split(serialized, ","));
 
-            return service.listPlaceWeatherForecast(city_list.get(0), "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
+            for (String city : city_list) {
+                forecasts.add(service.listPlaceWeatherForecast(city, "json", 5, "a8d9da468063a74e52b5d697329e730bbe04f438"));
+
+            }
+            return forecasts;
         }
+
 
     }
 
