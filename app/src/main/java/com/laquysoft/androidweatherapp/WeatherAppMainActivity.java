@@ -153,4 +153,8 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
         builder.show();
     }
+
+    public void addCity(View v) {
+        inputPlace();
+    }
 }

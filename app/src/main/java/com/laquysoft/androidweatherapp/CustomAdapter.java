@@ -25,7 +25,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
     private final List<PlaceWeatherForecast> placeWeatherForecastList;
 
     public CustomAdapter(Context context, List<PlaceWeatherForecast> items) {
-        super(context, R.layout.list_item, items);
+        super(context, R.layout.activity_googlecards_card, items);
         placeWeatherForecastList = items;
     }
 
@@ -37,7 +37,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         View view;
         LayoutInflater inflater = (LayoutInflater) getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.list_item, parent, false);
+        view = inflater.inflate(R.layout.activity_googlecards_card, parent, false);
 
 
 

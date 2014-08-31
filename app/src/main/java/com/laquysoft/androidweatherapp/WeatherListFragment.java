@@ -46,7 +46,7 @@ import javax.inject.Inject;
  * Created by joaobiriba on 29/08/14.
  */
 public class WeatherListFragment extends ListFragment implements
-        Callback<List<PlaceWeatherForecast>>{
+        Callback<List<PlaceWeatherForecast>> {
 
     final static String TAG = WeatherListFragment.class.getName();
 

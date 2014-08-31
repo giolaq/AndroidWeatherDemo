@@ -2,26 +2,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="3dp"
+    android:paddingRight="3dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
     tools:context=".WeatherAppMainActivity$PlaceholderFragment"
     android:id="@+id/weather_fragment_layout">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/footer"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView" />
+        android:layout_alignParentRight="true"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <Button
+            android:id="@+id/btnadd"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@android:color/black"
+            android:onClick="addCity"
+            android:text="Add City"/>
+    </LinearLayout>
+
+    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@android:id/list"
-        android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e2e2e2"
+        android:clipToPadding="false"
+        android:divider="@null"
+        android:dividerHeight="16dp"
+        android:fadingEdge="none"
+        android:padding="16dp"
+        android:layout_marginTop="3dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_above="@+id/footer" />
 
 
 </RelativeLayout>
