@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
@@ -31,6 +32,9 @@ import com.laquysoft.androidweatherapp.loader.RetrofitLoader;
 import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
 import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
+import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
 import org.w3c.dom.Text;
 
@@ -46,9 +50,11 @@ import javax.inject.Inject;
  * Created by joaobiriba on 29/08/14.
  */
 public class WeatherListFragment extends ListFragment implements
-        Callback<List<PlaceWeatherForecast>> {
+        Callback<List<PlaceWeatherForecast>>, OnDismissCallback {
 
     final static String TAG = WeatherListFragment.class.getName();
+
+    private static final int INITIAL_DELAY_MILLIS = 300;
 
     @Inject
     WorldWeatherOnline worldWeatherOnlineService;
@@ -57,7 +63,8 @@ public class WeatherListFragment extends ListFragment implements
 
     private List<PlaceWeatherForecast> placeWeatherForecastList;
 
-    //CustomAdapter adapter;
+
+    CustomAdapter adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -81,7 +88,14 @@ public class WeatherListFragment extends ListFragment implements
 
         placeWeatherForecastList = new LinkedList<PlaceWeatherForecast>();
 
+        adapter = new CustomAdapter(getActivity());
+        SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(adapter, this));
+        ListView listView = (ListView) getActivity().findViewById(android.R.id.list);
 
+        swingBottomInAnimationAdapter.setAbsListView(listView);
+
+        assert swingBottomInAnimationAdapter.getViewAnimator() != null;
+        swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
        // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
        // setListAdapter(adapter);
 
@@ -154,32 +168,18 @@ public class WeatherListFragment extends ListFragment implements
 
 
         Log.d(TAG, " Display results");
-        List<String> strings = toStringList(placeWeatherForecasts);
        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.textView, strings);
-        CustomAdapter adapter = new CustomAdapter(getActivity(),placeWeatherForecasts);
+        adapter.addAll(placeWeatherForecasts);
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
     }
 
-
-    private static List<String> toStringList(List<PlaceWeatherForecast> placeWeatherForecasts) {
-
-        ArrayList<String> strings = new ArrayList<String>(placeWeatherForecasts.size());
-
-
-        for (PlaceWeatherForecast weatherForecast : placeWeatherForecasts) {
-            strings.add(weatherForecast.getData().getRequest().get(0).getQuery());
-
-            for (PlaceWeatherForecast.Weather weather : weatherForecast.getData().getWeather()) {
-
-                strings.add(weather.getDate() + " " + weather.getWeatherDesc().get(0).getValue());
-            }
-
+    @Override
+    public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] ints) {
+        for (int position : ints) {
+            adapter.remove(position);
         }
-
-        return strings;
     }
-
 
     static class PlaceWeatherForecastLoader extends RetrofitLoader<List<PlaceWeatherForecast>, WorldWeatherOnline> {
 

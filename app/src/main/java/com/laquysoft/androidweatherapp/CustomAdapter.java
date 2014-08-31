@@ -6,9 +6,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import com.nhaarman.listviewanimations.ArrayAdapter;
 
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
 
@@ -20,22 +21,20 @@ import java.util.List;
 
 public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
 
+    private final Context mContext;
 
     static final String  TAG = CustomAdapter.class.getName();
-    private final List<PlaceWeatherForecast> placeWeatherForecastList;
 
-    public CustomAdapter(Context context, List<PlaceWeatherForecast> items) {
-        super(context, R.layout.activity_googlecards_card, items);
-        placeWeatherForecastList = items;
+    public CustomAdapter(final Context context) {
+        mContext = context;
     }
 
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getView");
 
         View view;
-        LayoutInflater inflater = (LayoutInflater) getContext()
+        LayoutInflater inflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.activity_googlecards_card, parent, false);
 
@@ -48,7 +47,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         TextView weath4 = (TextView) view.findViewById(R.id.fourth);
         TextView weath5 = (TextView) view.findViewById(R.id.fifth);
 
-        PlaceWeatherForecast row_pos = placeWeatherForecastList.get(position);
+        PlaceWeatherForecast row_pos = getItem(position);
         txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
         weath1.setText(row_pos.getData().getWeather().get(0).getWeatherDesc().get(0).getValue());
         weath2.setText(row_pos.getData().getWeather().get(1).getWeatherDesc().get(0).getValue());
