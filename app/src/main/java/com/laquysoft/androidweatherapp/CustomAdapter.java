@@ -25,7 +25,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
 
     private final Context mContext;
 
-    static final String  TAG = CustomAdapter.class.getName();
+    static final String TAG = CustomAdapter.class.getName();
 
     public CustomAdapter(final Context context) {
         mContext = context;
@@ -41,20 +41,47 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         view = inflater.inflate(R.layout.activity_googlecards_card, parent, false);
 
 
-        ImageView weatherIcon = (ImageView) view.findViewById(R.id.imageView);
+        ImageView weatherIcon = (ImageView) view.findViewById(R.id.firstDayIcon);
+        ImageView weatherIconFirst = (ImageView) view.findViewById(R.id.firstDayIcon);
+        ImageView weatherIconSecond = (ImageView) view.findViewById(R.id.secondDayIcon);
+        ImageView weatherIconThird = (ImageView) view.findViewById(R.id.thidDayIcon);
+        ImageView weatherIconFourth = (ImageView) view.findViewById(R.id.fourthDayIcon);
+        ImageView weatherIconFifth = (ImageView) view.findViewById(R.id.fifthDayIcon);
+
         if (weatherIcon == null) {
             weatherIcon = new ImageView(mContext);
         }
-        String url = getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue();
 
+        String url = getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue();
         Picasso.with(mContext).load(url).into(weatherIcon);
 
+        Picasso.with(mContext).load(
+                getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue()
+        ).into(weatherIconFirst);
+
+        Picasso.with(mContext).load(
+                getItem(position).getData().getWeather().get(1).getWeatherIconUrl().get(0).getValue()
+        ).into(weatherIconSecond);
+
+        Picasso.with(mContext).load(
+                getItem(position).getData().getWeather().get(2).getWeatherIconUrl().get(0).getValue()
+        ).into(weatherIconThird);
+
+        Picasso.with(mContext).load(
+                getItem(position).getData().getWeather().get(3).getWeatherIconUrl().get(0).getValue()
+        ).into(weatherIconFourth);
+
+        Picasso.with(mContext).load(
+                getItem(position).getData().getWeather().get(4).getWeatherIconUrl().get(0).getValue()
+        ).into(weatherIconFifth);
+
+
         TextView txtTitle = (TextView) view.findViewById(R.id.place);
-        TextView weath1 = (TextView) view.findViewById(R.id.first);
-        TextView weath2 = (TextView) view.findViewById(R.id.second);
-        TextView weath3 = (TextView) view.findViewById(R.id.third);
-        TextView weath4 = (TextView) view.findViewById(R.id.fourth);
-        TextView weath5 = (TextView) view.findViewById(R.id.fifth);
+        TextView weath1 = (TextView) view.findViewById(R.id.firstDay);
+        TextView weath2 = (TextView) view.findViewById(R.id.secondDay);
+        TextView weath3 = (TextView) view.findViewById(R.id.thirdDay);
+        TextView weath4 = (TextView) view.findViewById(R.id.fourthDay);
+        TextView weath5 = (TextView) view.findViewById(R.id.fifthDay);
 
         PlaceWeatherForecast row_pos = getItem(position);
         txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
