@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,8 @@ import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
 import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
 
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +45,8 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     SharedPreferences prefs;
 
     private static final String KEY = "prefs";
+    private static final String default_cities = "London, Rome, Madrid";
+    private LinkedList<String> city_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +56,23 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         listFragment = new WeatherListFragment();
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString(KEY, "London");
-        editor.apply();
+        String serialized = prefs.getString("city_list", null);
+        if ( serialized == null ) {
+            city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(default_cities, ",")));
+            city_list.add("London");
+            city_list.add("Rome");
+            city_list.add("New York");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString("city_list", TextUtils.join(",", city_list));
+            editor.commit();
+        }
+        else {
+            city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
+
+        }
+
+
+
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -125,7 +144,8 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
             public void onClick(DialogInterface dialog, int which) {
                 String place = input.getText().toString();
                 SharedPreferences.Editor editor = prefs.edit();
-                editor.putString(KEY, place);
+                city_list.add(place);
+                editor.putString("city_list", TextUtils.join(",", city_list)); // Add Array list elements to shared preferences
                 editor.apply();
             }
         });

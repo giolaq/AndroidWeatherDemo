@@ -9,6 +9,7 @@ import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.laquysoft.androidweatherapp.loader.Callback;
@@ -28,8 +30,11 @@ import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
 import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,11 +51,13 @@ public class WeatherListFragment extends ListFragment implements
     WorldWeatherOnline worldWeatherOnlineService;
 
     PlaceWeatherForecastLoader loader;
+    private TextView placeNameTv;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_weather_app_main, container, false);
+        placeNameTv = (TextView) rootView.findViewById(R.id.textView);
         return rootView;
     }
 
@@ -140,6 +147,7 @@ public class WeatherListFragment extends ListFragment implements
         Log.d(TAG, placeWeatherForecasts.getData().getRequest().get(0).getQuery());
         List<String> strings = toStringList(placeWeatherForecasts.getData().getWeather());
 
+        placeNameTv.setText(placeWeatherForecasts.getData().getRequest().get(0).getQuery());
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
 
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
@@ -150,6 +158,7 @@ public class WeatherListFragment extends ListFragment implements
     private static List<String> toStringList(List<PlaceWeatherForecast.Weather> placeWeatherForecasts) {
 
         ArrayList<String> strings = new ArrayList<String>(placeWeatherForecasts.size());
+        
 
         for (PlaceWeatherForecast.Weather weather : placeWeatherForecasts) {
 
@@ -173,9 +182,10 @@ public class WeatherListFragment extends ListFragment implements
         public PlaceWeatherForecast call(WorldWeatherOnline service, SharedPreferences prefs) {
 
             Log.d(TAG, "call");
-            Log.d(TAG, "Prefs " + prefs.getString("prefs", "nullo"));
+            String serialized = prefs.getString("city_list", null);
+            List<String> city_list = Arrays.asList(TextUtils.split(serialized, ","));
 
-            return service.listPlaceWeatherForecast(prefs.getString("prefs", "nullo"), "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
+            return service.listPlaceWeatherForecast(city_list.get(0), "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
         }
 
     }
