@@ -45,7 +45,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     SharedPreferences prefs;
 
     private static final String KEY = "prefs";
-    private static final String default_cities = "London, Rome, Madrid";
+    private static final String default_cities = "Dublin, London, New York, Barcelona";
     private LinkedList<String> city_list;
 
     @Override
@@ -57,13 +57,12 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String serialized = prefs.getString("city_list", null);
-        if ( serialized == null ) {
+        if (serialized == null) {
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(default_cities, ",")));
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("city_list", TextUtils.join(",", city_list));
             editor.commit();
-        }
-        else {
+        } else {
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
 
         }
@@ -126,7 +125,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     private void inputPlace() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
-
+        final Context ctx = this;
 // Set up the input
         final EditText input = new EditText(this);
 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -139,7 +138,11 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
             public void onClick(DialogInterface dialog, int which) {
                 String place = input.getText().toString();
                 SharedPreferences.Editor editor = prefs.edit();
-                city_list.add(place);
+                if ( ! city_list.contains(place)) {
+                    city_list.add(place);
+                } else {
+                    Toast.makeText(ctx, place + " already in list", Toast.LENGTH_LONG);
+                }
                 editor.putString("city_list", TextUtils.join(",", city_list)); // Add Array list elements to shared preferences
                 editor.apply();
             }

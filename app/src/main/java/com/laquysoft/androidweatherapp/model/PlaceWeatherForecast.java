@@ -42,6 +42,7 @@ public class PlaceWeatherForecast {
         private List<CurrentConditionObj> currentCondition;
         private List<Weather> weather;
         private List<Request> request;
+        private List<Error> error;
 
         public List<CurrentConditionObj> getCurrentCondition() {
             return currentCondition;
@@ -65,6 +66,14 @@ public class PlaceWeatherForecast {
 
         public void setRequest(List<Request> request) {
             this.request = request;
+        }
+
+        public List<Error> getError() {
+            return error;
+        }
+
+        public void setError(List<Error> error) {
+            this.error = error;
         }
     }
 
@@ -180,6 +189,18 @@ public class PlaceWeatherForecast {
 
         public void setType(String type) {
             this.type = type;
+        }
+    }
+
+    public class Error {
+        private String msg;
+
+        public String getMsg() {
+            return msg;
+        }
+
+        public void setMsg(String msg) {
+            this.msg = msg;
         }
     }
 }

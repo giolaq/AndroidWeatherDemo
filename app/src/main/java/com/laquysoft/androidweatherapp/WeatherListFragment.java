@@ -192,13 +192,23 @@ public class WeatherListFragment extends ListFragment implements
         public List<PlaceWeatherForecast> call(WorldWeatherOnline service, SharedPreferences prefs) {
 
             List<PlaceWeatherForecast> forecasts = new LinkedList<PlaceWeatherForecast>();
-            Log.d(TAG, "call");
             String serialized = prefs.getString("city_list", null);
             List<String> city_list = Arrays.asList(TextUtils.split(serialized, ","));
 
             for (String city : city_list) {
-                forecasts.add(service.listPlaceWeatherForecast(city, "json", 5, "a8d9da468063a74e52b5d697329e730bbe04f438"));
+                Log.d(TAG, "call " + city);
 
+                PlaceWeatherForecast weatherForecast = service.listPlaceWeatherForecast(city, "json", 5, "a8d9da468063a74e52b5d697329e730bbe04f438");
+                forecasts.add(weatherForecast);
+
+         /*       if ( weatherForecast.getData().getError().get(0).getMsg() != null  ) {
+                    forecasts.add(weatherForecast);
+                }
+                else
+                {
+                    Toast.makeText(getContext(), city + " " + weatherForecast.getData().getError().get(0).getMsg(), Toast.LENGTH_LONG);
+                    city_list.remove(city);
+                }*/
             }
             return forecasts;
         }
