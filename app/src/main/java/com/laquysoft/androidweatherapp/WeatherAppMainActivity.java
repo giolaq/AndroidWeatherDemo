@@ -1,10 +1,15 @@
 package com.laquysoft.androidweatherapp;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.laquysoft.androidweatherapp.loader.Callback;
@@ -33,12 +39,21 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
     WeatherListFragment listFragment;
 
+    SharedPreferences prefs;
+
+    private static final String KEY = "prefs";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weather_app_main);
 
-         listFragment = new WeatherListFragment();
+        listFragment = new WeatherListFragment();
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(KEY, "London");
+        editor.apply();
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
@@ -61,15 +76,22 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.refresh) {
-            Log.i(TAG, "Refreshin...");
-            listFragment.refresh();
-            return true;
+
+        switch (item.getItemId()) {
+
+            case R.id.add_place:
+                inputPlace();
+                //Add place to list
+                break;
+
+            case R.id.refresh:
+
+                Log.i(TAG, "Refreshin...");
+                listFragment.refresh();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
-
 
 
     @Override
@@ -87,4 +109,33 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         listFragment.displayResults(result);
     }
 
+    private void inputPlace() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Title");
+
+// Set up the input
+        final EditText input = new EditText(this);
+// Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+// Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String place = input.getText().toString();
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString(KEY, place);
+                editor.apply();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
 }

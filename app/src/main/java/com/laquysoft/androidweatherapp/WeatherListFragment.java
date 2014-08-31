@@ -2,6 +2,7 @@ package com.laquysoft.androidweatherapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -160,7 +161,8 @@ public class WeatherListFragment extends ListFragment implements
 
 
 
-    static class PlaceWeatherForecastLoader extends RetrofitLoader<PlaceWeatherForecast, WorldWeatherOnline> {
+    static class PlaceWeatherForecastLoader extends RetrofitLoader<PlaceWeatherForecast, WorldWeatherOnline>
+    {
 
         public PlaceWeatherForecastLoader(Context context, WorldWeatherOnline service) {
 
@@ -168,12 +170,14 @@ public class WeatherListFragment extends ListFragment implements
         }
 
         @Override
-        public PlaceWeatherForecast call(WorldWeatherOnline service) {
+        public PlaceWeatherForecast call(WorldWeatherOnline service, SharedPreferences prefs) {
 
-            Log.d("PlaceWeatherForecastLoader", "call");
+            Log.d(TAG, "call");
+            Log.d(TAG, "Prefs " + prefs.getString("prefs", "nullo"));
 
-            return service.listPlaceWeatherForecast("London", "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
+            return service.listPlaceWeatherForecast(prefs.getString("prefs", "nullo"), "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
         }
+
     }
 
 
