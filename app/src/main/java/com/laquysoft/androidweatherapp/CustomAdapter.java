@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
 
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -39,6 +41,13 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         view = inflater.inflate(R.layout.activity_googlecards_card, parent, false);
 
 
+        ImageView weatherIcon = (ImageView) view.findViewById(R.id.imageView);
+        if (weatherIcon == null) {
+            weatherIcon = new ImageView(mContext);
+        }
+        String url = getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue();
+
+        Picasso.with(mContext).load(url).into(weatherIcon);
 
         TextView txtTitle = (TextView) view.findViewById(R.id.place);
         TextView weath1 = (TextView) view.findViewById(R.id.first);

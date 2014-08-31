@@ -19,6 +19,7 @@ public class PlaceWeatherForecast {
 
     public class CurrentConditionObj {
         private String cloudcover;
+        private List<WheatherIconUrl> weatherIconUrl;
 
         public String getCloudcover() {
             return cloudcover;
@@ -26,6 +27,14 @@ public class PlaceWeatherForecast {
 
         public void setCloudcover(String cloudcover) {
             this.cloudcover = cloudcover;
+        }
+
+        public List<WheatherIconUrl> getWeatherIconUrl() {
+            return weatherIconUrl;
+        }
+
+        public void setWeatherIconUrl(List<WheatherIconUrl> weatherIconUrl) {
+            this.weatherIconUrl = weatherIconUrl;
         }
     }
 
@@ -67,6 +76,8 @@ public class PlaceWeatherForecast {
         private String winddir16Point;
 
         private List<WeatherDesc> weatherDesc;
+        private List<WheatherIconUrl> weatherIconUrl;
+
 
         public String getDate() {
             return date;
@@ -115,9 +126,30 @@ public class PlaceWeatherForecast {
         public void setWinddir16Point(String winddir16Point) {
             this.winddir16Point = winddir16Point;
         }
+
+        public List<WheatherIconUrl> getWeatherIconUrl() {
+            return weatherIconUrl;
+        }
+
+        public void setWeatherIconUrl(List<WheatherIconUrl> weatherIconUrl) {
+            this.weatherIconUrl = weatherIconUrl;
+        }
     }
 
     public class WeatherDesc {
+        private String value;
+
+        public String getValue() {
+            return value;
+        }
+
+        public void setValue(String value) {
+            this.value = value;
+        }
+
+    }
+
+    public class WheatherIconUrl {
         private String value;
 
         public String getValue() {
