@@ -1,14 +1,14 @@
 package com.laquysoft.androidweatherapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,15 +17,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.laquysoft.androidweatherapp.loader.Callback;
+import com.laquysoft.androidweatherapp.loader.RetrofitLoader;
+import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
+import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
+import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * Created by joaobiriba on 29/08/14.
  */
 public class WeatherListFragment extends ListFragment implements
-        AbsListView.OnScrollListener, AbsListView.OnItemClickListener,
-        LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
+        Callback<PlaceWeatherForecast> {
 
+    final static String TAG = WeatherListFragment.class.getName();
+
+    @Inject
+    WorldWeatherOnline worldWeatherOnlineService;
+
+    PlaceWeatherForecastLoader loader;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,12 +57,24 @@ public class WeatherListFragment extends ListFragment implements
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        ((App) (getActivity().getApplication())).inject(this);
+
+        loader = new PlaceWeatherForecastLoader(getActivity(), worldWeatherOnlineService);
+
+        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+
         setHasOptionsMenu(true);
         ActionBar ab = ((ActionBarActivity) getActivity())
                 .getSupportActionBar();
         
         
         
+    }
+
+    public void refresh() {
+        Log.i(TAG, "Refreshin...");
+        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+
     }
 
     @Override
@@ -77,7 +108,7 @@ public class WeatherListFragment extends ListFragment implements
 
             case R.id.refresh:
 
-                onRefresh();
+                //onRefresh();
 
                 break;
         }
@@ -88,37 +119,63 @@ public class WeatherListFragment extends ListFragment implements
 
 
     @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
+    public void onFailure(Exception ex) {
+        Toast.makeText(getActivity(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
 
     }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
+    public void onSuccess(PlaceWeatherForecast result) {
+        Log.d("PlaceWeatherForecastLoader", "onSuccess");
 
+        displayResults(result);
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    public void displayResults(PlaceWeatherForecast placeWeatherForecasts) {
+
+        if (placeWeatherForecasts.getData() == null )
+            Log.d(TAG, "Data == null");
+
+        Log.d(TAG, "Cloud cover " + placeWeatherForecasts.getData().getCurrentCondition().get(0).getCloudcover());
+       /* List<String> strings = toStringList(placeWeatherForecasts);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings);
+
+        ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
+        viewById.setAdapter(adapter);*/
     }
 
-    @Override
-    public void onRefresh() {
 
+    private static List<String> toStringList(List<PlaceWeatherForecast> placeWeatherForecasts) {
+
+        ArrayList<String> strings = new ArrayList<String>(placeWeatherForecasts.size());
+
+        for (PlaceWeatherForecast placeWeatherForecast : placeWeatherForecasts) {
+
+            //strings.add(placeWeatherForecast.getCurrentCondition());
+        }
+
+        return strings;
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView absListView, int i) {
 
+
+    static class PlaceWeatherForecastLoader extends RetrofitLoader<PlaceWeatherForecast, WorldWeatherOnline> {
+
+        public PlaceWeatherForecastLoader(Context context, WorldWeatherOnline service) {
+
+            super(context, service);
+        }
+
+        @Override
+        public PlaceWeatherForecast call(WorldWeatherOnline service) {
+
+            Log.d("PlaceWeatherForecastLoader", "call");
+
+            return service.listPlaceWeatherForecast("London", "json", 5,"a8d9da468063a74e52b5d697329e730bbe04f438");
+        }
     }
 
-    @Override
-    public void onScroll(AbsListView absListView, int i, int i2, int i3) {
 
-    }
 }
