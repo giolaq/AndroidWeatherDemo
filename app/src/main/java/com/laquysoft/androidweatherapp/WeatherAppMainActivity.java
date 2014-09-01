@@ -76,14 +76,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.weather_app_main, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -92,10 +84,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
         switch (item.getItemId()) {
 
-            case R.id.add_place:
-                inputPlace();
-                //Add place to list
-                break;
 
             case R.id.refresh:
 

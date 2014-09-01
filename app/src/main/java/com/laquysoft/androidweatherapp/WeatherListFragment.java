@@ -168,10 +168,6 @@ public class WeatherListFragment extends ListFragment implements
 
         switch (item.getItemId()) {
 
-            case R.id.add_place:
-
-                //Add place to list
-                break;
 
             case R.id.refresh:
 
