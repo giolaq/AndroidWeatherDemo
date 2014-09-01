@@ -27,6 +27,7 @@
     </LinearLayout>
 
     <FrameLayout
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -36,20 +37,20 @@
             android:id="@android:id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:drawSelectorOnTop="false" />
+            android:drawSelectorOnTop="false"
+            android:dividerHeight="0dp"
+            android:divider="@null"/>
 
-        <Button
-            android:id="@+id/btnadd"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="match_parent"
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/button_floating_action"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:onClick="addCity"
-            android:text="Add City"
-            android:background="#00ffff"
-            android:textColor="@android:color/black" />
-
-
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_action_content_new"
+            fab:fab_colorNormal="@android:color/holo_red_dark"
+            fab:fab_colorPressed="@android:color/holo_red_light"/>
     </FrameLayout>
 
 

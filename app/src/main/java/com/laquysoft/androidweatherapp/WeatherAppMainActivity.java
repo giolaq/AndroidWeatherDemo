@@ -122,7 +122,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         listFragment.displayResults(result);
     }
 
-    private void inputPlace() {
+    public void inputPlace() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Title");
         final Context ctx = this;

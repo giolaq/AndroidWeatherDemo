@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
@@ -35,6 +36,7 @@ import com.laquysoft.androidweatherapp.loader.RetrofitLoader;
 import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
 import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
+import com.melnykov.fab.FloatingActionButton;
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
@@ -106,15 +108,33 @@ public class WeatherListFragment extends ListFragment implements
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(adapter, this));
         ListView listView = (ListView) getActivity().findViewById(android.R.id.list);
 
+        FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.button_floating_action);
+        floatingActionButton.attachToListView(listView);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((WeatherAppMainActivity) getActivity()).inputPlace();
+            }
+        });
+
+
         swingBottomInAnimationAdapter.setAbsListView(listView);
 
         assert swingBottomInAnimationAdapter.getViewAnimator() != null;
-        swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
+        swingBottomInAnimationAdapter.getViewAnimator().
+
+                setInitialDelayMillis(INITIAL_DELAY_MILLIS);
+
         // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
         setListAdapter(adapter);
+
         setListShown(false);
 
-        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+        RetrofitLoaderManager.init(
+
+                getLoaderManager(),
+
+                0, loader, this);
 
     }
 
