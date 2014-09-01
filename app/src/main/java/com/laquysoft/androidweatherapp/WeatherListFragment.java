@@ -186,6 +186,7 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onSuccess(List<PlaceWeatherForecast> result) {
         Log.d("PlaceWeatherForecastLoader", "onSuccess");
+        mPullToRefreshLayout.setRefreshComplete();
         displayResults(result);
     }
 
@@ -260,7 +261,9 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onRefreshStarted(View view) {
         Log.i(TAG, "Refreshin...");
-        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+
+       // RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+        loader.onContentChanged();
         setListShown(false);
 
     }
@@ -296,6 +299,7 @@ public class WeatherListFragment extends ListFragment implements
             }
             return forecasts;
         }
+
 
 
     }

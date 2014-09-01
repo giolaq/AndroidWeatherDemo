@@ -6,6 +6,7 @@ import android.support.v4.content.Loader;
 
 public class RetrofitLoaderManager {
 
+
     public static <D, R> void init(final LoaderManager manager, final int loaderId,
                                    final RetrofitLoader<D, R> loader, final Callback<D> callback) {
 
@@ -37,4 +38,6 @@ public class RetrofitLoaderManager {
             }
         });
     }
+
+
 }
