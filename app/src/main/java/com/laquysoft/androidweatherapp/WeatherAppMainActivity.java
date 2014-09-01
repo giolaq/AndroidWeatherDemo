@@ -141,7 +141,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
                 if ( ! city_list.contains(place)) {
                     city_list.add(place);
                 } else {
-                    Toast.makeText(ctx, place + " already in list", Toast.LENGTH_LONG);
+                    Toast.makeText(ctx, place + " already in list", Toast.LENGTH_LONG).show();
                 }
                 editor.putString("city_list", TextUtils.join(",", city_list)); // Add Array list elements to shared preferences
                 editor.apply();

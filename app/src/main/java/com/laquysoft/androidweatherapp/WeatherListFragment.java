@@ -7,6 +7,7 @@ import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -96,8 +97,8 @@ public class WeatherListFragment extends ListFragment implements
 
         assert swingBottomInAnimationAdapter.getViewAnimator() != null;
         swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
-       // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
-       // setListAdapter(adapter);
+        // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
+        // setListAdapter(adapter);
 
         RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
 
@@ -168,7 +169,7 @@ public class WeatherListFragment extends ListFragment implements
 
 
         Log.d(TAG, " Display results");
-       //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.textView, strings);
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.textView, strings);
         adapter.addAll(placeWeatherForecasts);
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
@@ -177,7 +178,19 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onDismiss(@NonNull ViewGroup viewGroup, @NonNull int[] ints) {
         for (int position : ints) {
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            SharedPreferences.Editor editor = prefs.edit();
+            String serialized = prefs.getString("city_list", null);
+            LinkedList<String> city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
+            String cityToRemove = TextUtils.split(adapter.getItem(position).getData().getRequest().get(0).getQuery(),",")[0];
+            Log.d(TAG, "Dismiss and remove city " + cityToRemove);
+            city_list.remove(cityToRemove);
+
+            editor.putString("city_list", TextUtils.join(",", city_list)); // Add Array list elements to shared preferences
+            editor.apply();
+
             adapter.remove(position);
+
         }
     }
 
@@ -201,12 +214,12 @@ public class WeatherListFragment extends ListFragment implements
                 PlaceWeatherForecast weatherForecast = service.listPlaceWeatherForecast(city, "json", 5, "a8d9da468063a74e52b5d697329e730bbe04f438");
                 forecasts.add(weatherForecast);
 
-         /*       if ( weatherForecast.getData().getError().get(0).getMsg() != null  ) {
+                /*if ( weatherForecast.getData().getError().get(0).getMsg() != null  ) {
                     forecasts.add(weatherForecast);
                 }
                 else
                 {
-                    Toast.makeText(getContext(), city + " " + weatherForecast.getData().getError().get(0).getMsg(), Toast.LENGTH_LONG);
+                    Toast.makeText(getContext(), city + " " + weatherForecast.getData().getError().get(0).getMsg(), Toast.LENGTH_LONG).show();
                     city_list.remove(city);
                 }*/
             }
