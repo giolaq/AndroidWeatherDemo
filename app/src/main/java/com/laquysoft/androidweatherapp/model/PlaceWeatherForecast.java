@@ -20,6 +20,7 @@ public class PlaceWeatherForecast {
     public class CurrentConditionObj {
         private String cloudcover;
         private List<WheatherIconUrl> weatherIconUrl;
+        private List<WeatherDesc> weatherDesc;
 
         public String getCloudcover() {
             return cloudcover;
@@ -36,20 +37,28 @@ public class PlaceWeatherForecast {
         public void setWeatherIconUrl(List<WheatherIconUrl> weatherIconUrl) {
             this.weatherIconUrl = weatherIconUrl;
         }
+
+        public List<WeatherDesc> getWeatherDesc() {
+            return weatherDesc;
+        }
+
+        public void setWeatherDesc(List<WeatherDesc> weatherDesc) {
+            this.weatherDesc = weatherDesc;
+        }
     }
 
     public class Data {
-        private List<CurrentConditionObj> currentCondition;
+        private List<CurrentConditionObj> current_condition;
         private List<Weather> weather;
         private List<Request> request;
         private List<Error> error;
 
         public List<CurrentConditionObj> getCurrentCondition() {
-            return currentCondition;
+            return current_condition;
         }
 
         public void setCurrentCondition(List<CurrentConditionObj> currentCondition) {
-            this.currentCondition = currentCondition;
+            this.current_condition = currentCondition;
         }
 
         public List<Weather> getWeather() {

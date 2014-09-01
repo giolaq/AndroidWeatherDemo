@@ -77,6 +77,8 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
 
 
         TextView txtTitle = (TextView) view.findViewById(R.id.place);
+        TextView currentCondition = (TextView) view.findViewById(R.id.currentCondition);
+
         TextView weath1 = (TextView) view.findViewById(R.id.firstWeatherCondition);
         TextView weath2 = (TextView) view.findViewById(R.id.secondWeatherCondition);
         TextView weath3 = (TextView) view.findViewById(R.id.thirdWeatherCondition);
@@ -90,6 +92,8 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         TextView date5 = (TextView) view.findViewById(R.id.fifthDay);
 
         PlaceWeatherForecast row_pos = getItem(position);
+
+        currentCondition.setText(row_pos.getData().getCurrentCondition().get(0).getWeatherDesc().get(0).getValue());
         txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
         weath1.setText(row_pos.getData().getWeather().get(0).getWeatherDesc().get(0).getValue());
         weath2.setText(row_pos.getData().getWeather().get(1).getWeatherDesc().get(0).getValue());
