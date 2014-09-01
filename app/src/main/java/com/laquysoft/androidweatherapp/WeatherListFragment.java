@@ -80,6 +80,7 @@ public class WeatherListFragment extends ListFragment implements
     boolean mListShown;
     View mProgressContainer;
     View mListContainer;
+    private FloatingActionButton floatingActionButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -135,7 +136,7 @@ public class WeatherListFragment extends ListFragment implements
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(adapter, this));
         ListView listView = (ListView) getActivity().findViewById(android.R.id.list);
 
-        FloatingActionButton floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.button_floating_action);
+        floatingActionButton = (FloatingActionButton) getActivity().findViewById(R.id.button_floating_action);
         floatingActionButton.attachToListView(listView);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +144,7 @@ public class WeatherListFragment extends ListFragment implements
                 ((WeatherAppMainActivity) getActivity()).inputPlace();
             }
         });
-
+        floatingActionButton.setVisibility(View.INVISIBLE);
 
         swingBottomInAnimationAdapter.setAbsListView(listView);
 
@@ -151,6 +152,7 @@ public class WeatherListFragment extends ListFragment implements
         swingBottomInAnimationAdapter.getViewAnimator().
 
                 setInitialDelayMillis(INITIAL_DELAY_MILLIS);
+
 
         // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
         setListAdapter(adapter);
@@ -238,6 +240,7 @@ public class WeatherListFragment extends ListFragment implements
             }
             mProgressContainer.setVisibility(View.GONE);
             mListContainer.setVisibility(View.VISIBLE);
+            floatingActionButton.setVisibility(View.VISIBLE);
         } else {
             if (animate) {
                 mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
@@ -247,6 +250,8 @@ public class WeatherListFragment extends ListFragment implements
             }
             mProgressContainer.setVisibility(View.VISIBLE);
             mListContainer.setVisibility(View.INVISIBLE);
+            floatingActionButton.setVisibility(View.INVISIBLE);
+
         }
     }
 
