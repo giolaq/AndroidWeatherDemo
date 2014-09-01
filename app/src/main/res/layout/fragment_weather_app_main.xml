@@ -1,47 +1,57 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp"
-    android:paddingTop="0dp"
-    android:paddingBottom="0dp"
-    tools:context=".WeatherAppMainActivity$PlaceholderFragment"
-    android:id="@+id/weather_fragment_layout">
+    android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/footer"
-        style="?android:attr/buttonBarStyle"
+        android:id="@+id/progressContainer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dip"
+            android:singleLine="true"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/listContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:drawSelectorOnTop="false" />
 
         <Button
             android:id="@+id/btnadd"
             style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="@android:color/black"
+            android:layout_gravity="bottom"
             android:onClick="addCity"
-            android:text="Add City"/>
-    </LinearLayout>
-
-    <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@android:id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#e2e2e2"
-        android:clipToPadding="false"
-        android:divider="@null"
-        android:dividerHeight="16dp"
-        android:fadingEdge="none"
-        android:padding="16dp"
-        android:layout_marginTop="3dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:layout_above="@+id/footer" />
+            android:text="Add City"
+            android:background="#00ffff"
+            android:textColor="@android:color/black" />
 
 
-</RelativeLayout>
+    </FrameLayout>
+
+
+
+</FrameLayout>

@@ -21,9 +21,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -67,10 +69,21 @@ public class WeatherListFragment extends ListFragment implements
 
     CustomAdapter adapter;
 
+    public ListView mList;
+    boolean mListShown;
+    View mProgressContainer;
+    View mListContainer;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        int INTERNAL_EMPTY_ID = 0x00ff0001;
         View rootView = inflater.inflate(R.layout.fragment_weather_app_main, container, false);
+        // (rootView.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
+        mList = (ListView) rootView.findViewById(android.R.id.list);
+        mListContainer = rootView.findViewById(R.id.listContainer);
+        mProgressContainer = rootView.findViewById(R.id.progressContainer);
+        mListShown = true;
         return rootView;
     }
 
@@ -98,7 +111,8 @@ public class WeatherListFragment extends ListFragment implements
         assert swingBottomInAnimationAdapter.getViewAnimator() != null;
         swingBottomInAnimationAdapter.getViewAnimator().setInitialDelayMillis(INITIAL_DELAY_MILLIS);
         // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
-        // setListAdapter(adapter);
+        setListAdapter(adapter);
+        setListShown(false);
 
         RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
 
@@ -107,7 +121,7 @@ public class WeatherListFragment extends ListFragment implements
     public void refresh() {
         Log.i(TAG, "Refreshin...");
         RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
-
+        setListShown(false);
     }
 
     @Override
@@ -160,7 +174,6 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onSuccess(List<PlaceWeatherForecast> result) {
         Log.d("PlaceWeatherForecastLoader", "onSuccess");
-
         displayResults(result);
     }
 
@@ -173,6 +186,7 @@ public class WeatherListFragment extends ListFragment implements
         adapter.addAll(placeWeatherForecasts);
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
+        setListShown(true);
     }
 
     @Override
@@ -182,7 +196,7 @@ public class WeatherListFragment extends ListFragment implements
             SharedPreferences.Editor editor = prefs.edit();
             String serialized = prefs.getString("city_list", null);
             LinkedList<String> city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
-            String cityToRemove = TextUtils.split(adapter.getItem(position).getData().getRequest().get(0).getQuery(),",")[0];
+            String cityToRemove = TextUtils.split(adapter.getItem(position).getData().getRequest().get(0).getQuery(), ",")[0];
             Log.d(TAG, "Dismiss and remove city " + cityToRemove);
             city_list.remove(cityToRemove);
 
@@ -192,6 +206,41 @@ public class WeatherListFragment extends ListFragment implements
             adapter.remove(position);
 
         }
+    }
+
+
+    public void setListShown(boolean shown, boolean animate) {
+        if (mListShown == shown) {
+            return;
+        }
+        mListShown = shown;
+        if (shown) {
+            if (animate) {
+                mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_out));
+                mListContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_in));
+            }
+            mProgressContainer.setVisibility(View.GONE);
+            mListContainer.setVisibility(View.VISIBLE);
+        } else {
+            if (animate) {
+                mProgressContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_in));
+                mListContainer.startAnimation(AnimationUtils.loadAnimation(
+                        getActivity(), android.R.anim.fade_out));
+            }
+            mProgressContainer.setVisibility(View.VISIBLE);
+            mListContainer.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void setListShown(boolean shown) {
+        setListShown(shown, true);
+    }
+
+    public void setListShownNoAnimation(boolean shown) {
+        setListShown(shown, false);
     }
 
     static class PlaceWeatherForecastLoader extends RetrofitLoader<List<PlaceWeatherForecast>, WorldWeatherOnline> {

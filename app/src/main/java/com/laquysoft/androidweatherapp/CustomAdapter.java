@@ -2,12 +2,15 @@ package com.laquysoft.androidweatherapp;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.ArrayAdapter;
@@ -41,7 +44,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         view = inflater.inflate(R.layout.activity_googlecards_card, parent, false);
 
 
-        ImageView weatherIcon = (ImageView) view.findViewById(R.id.firstDayIcon);
+        ImageView weatherIcon = (ImageView) view.findViewById(R.id.currentDayIcon);
         ImageView weatherIconFirst = (ImageView) view.findViewById(R.id.firstDayIcon);
         ImageView weatherIconSecond = (ImageView) view.findViewById(R.id.secondDayIcon);
         ImageView weatherIconThird = (ImageView) view.findViewById(R.id.thidDayIcon);
@@ -52,8 +55,10 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
             weatherIcon = new ImageView(mContext);
         }
 
-        String url = getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue();
+        String url = getItem(position).getData().getCurrentCondition().get(0).getWeatherIconUrl().get(0).getValue();
         Picasso.with(mContext).load(url).into(weatherIcon);
+
+
 
         Picasso.with(mContext).load(
                 getItem(position).getData().getWeather().get(0).getWeatherIconUrl().get(0).getValue()
