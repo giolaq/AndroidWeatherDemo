@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,7 +100,7 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         PlaceWeatherForecast row_pos = getItem(position);
 
         currentCondition.setText(row_pos.getData().getCurrentCondition().get(0).getWeatherDesc().get(0).getValue());
-        txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
+        txtTitle.setText(TextUtils.split(row_pos.getData().getRequest().get(0).getQuery(),",")[0]);
         weath1.setText(row_pos.getData().getWeather().get(0).getWeatherDesc().get(0).getValue());
         weath2.setText(row_pos.getData().getWeather().get(1).getWeatherDesc().get(0).getValue());
         weath3.setText(row_pos.getData().getWeather().get(2).getWeatherDesc().get(0).getValue());
