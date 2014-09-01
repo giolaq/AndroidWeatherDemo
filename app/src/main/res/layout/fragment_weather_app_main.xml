@@ -57,8 +57,8 @@
                 android:layout_gravity="bottom|right"
                 android:layout_margin="16dp"
                 android:src="@drawable/ic_action_content_new"
-                fab:fab_colorNormal="@android:color/holo_red_dark"
-                fab:fab_colorPressed="@android:color/holo_red_light"/>
+                fab:fab_colorNormal="@android:color/holo_blue_light"
+                fab:fab_colorPressed="@android:color/holo_blue_bright"/>
 
 
 
