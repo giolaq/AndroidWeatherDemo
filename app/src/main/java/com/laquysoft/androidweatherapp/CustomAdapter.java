@@ -77,11 +77,17 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
 
 
         TextView txtTitle = (TextView) view.findViewById(R.id.place);
-        TextView weath1 = (TextView) view.findViewById(R.id.firstDay);
-        TextView weath2 = (TextView) view.findViewById(R.id.secondDay);
-        TextView weath3 = (TextView) view.findViewById(R.id.thirdDay);
-        TextView weath4 = (TextView) view.findViewById(R.id.fourthDay);
-        TextView weath5 = (TextView) view.findViewById(R.id.fifthDay);
+        TextView weath1 = (TextView) view.findViewById(R.id.firstWeatherCondition);
+        TextView weath2 = (TextView) view.findViewById(R.id.secondWeatherCondition);
+        TextView weath3 = (TextView) view.findViewById(R.id.thirdWeatherCondition);
+        TextView weath4 = (TextView) view.findViewById(R.id.fourthWeatherCondition);
+        TextView weath5 = (TextView) view.findViewById(R.id.fifthWeatherCondition);
+
+        TextView date1 = (TextView) view.findViewById(R.id.firstDay);
+        TextView date2 = (TextView) view.findViewById(R.id.secondDay);
+        TextView date3 = (TextView) view.findViewById(R.id.thirdDay);
+        TextView date4 = (TextView) view.findViewById(R.id.fourthDay);
+        TextView date5 = (TextView) view.findViewById(R.id.fifthDay);
 
         PlaceWeatherForecast row_pos = getItem(position);
         txtTitle.setText(row_pos.getData().getRequest().get(0).getQuery());
@@ -90,6 +96,12 @@ public class CustomAdapter extends ArrayAdapter<PlaceWeatherForecast> {
         weath3.setText(row_pos.getData().getWeather().get(2).getWeatherDesc().get(0).getValue());
         weath4.setText(row_pos.getData().getWeather().get(3).getWeatherDesc().get(0).getValue());
         weath5.setText(row_pos.getData().getWeather().get(4).getWeatherDesc().get(0).getValue());
+
+        date1.setText(row_pos.getData().getWeather().get(0).getDate().substring(5));
+        date2.setText(row_pos.getData().getWeather().get(1).getDate().substring(5));
+        date3.setText(row_pos.getData().getWeather().get(2).getDate().substring(5));
+        date4.setText(row_pos.getData().getWeather().get(3).getDate().substring(5));
+        date5.setText(row_pos.getData().getWeather().get(4).getDate().substring(5));
 
         return view;
 
