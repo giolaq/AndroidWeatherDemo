@@ -194,12 +194,11 @@ public class WeatherListFragment extends ListFragment implements
 
 
         Log.d(TAG, " Display results");
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.textView, strings);
+        adapter.clear();
         adapter.addAll(placeWeatherForecasts);
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
         setListShown(true);
-        mPullToRefreshLayout.setRefreshing(false);
 
     }
 
@@ -260,7 +259,6 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onRefreshStarted(View view) {
         Log.i(TAG, "Refreshin...");
-        mPullToRefreshLayout.setRefreshing(true);
         RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
         setListShown(false);
 

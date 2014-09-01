@@ -58,12 +58,15 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String serialized = prefs.getString("city_list", null);
         if (serialized == null) {
+            Log.i(TAG, " No shared preferences ");
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(default_cities, ",")));
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("city_list", TextUtils.join(",", city_list));
             editor.commit();
         } else {
+
             city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
+            Log.i(TAG, " Loading shared preferences " + city_list.toString());
 
         }
 
