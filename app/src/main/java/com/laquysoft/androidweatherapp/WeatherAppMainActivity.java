@@ -110,7 +110,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String place = input.getText().toString();
+                String place = input.getText().toString().trim();
                 SharedPreferences.Editor editor = prefs.edit();
                 if ( ! city_list.contains(place)) {
                     city_list.add(place);
