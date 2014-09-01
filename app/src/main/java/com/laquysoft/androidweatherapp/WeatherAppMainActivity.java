@@ -76,23 +76,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        switch (item.getItemId()) {
-
-
-            case R.id.refresh:
-
-                Log.i(TAG, "Refreshin...");
-                listFragment.refresh();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 
     @Override

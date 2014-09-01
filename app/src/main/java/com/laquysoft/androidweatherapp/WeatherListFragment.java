@@ -51,11 +51,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
 /**
  * Created by joaobiriba on 29/08/14.
  */
 public class WeatherListFragment extends ListFragment implements
-        Callback<List<PlaceWeatherForecast>>, OnDismissCallback {
+        Callback<List<PlaceWeatherForecast>>, OnDismissCallback, OnRefreshListener {
 
     final static String TAG = WeatherListFragment.class.getName();
 
@@ -67,6 +71,7 @@ public class WeatherListFragment extends ListFragment implements
     PlaceWeatherForecastLoader loader;
 
     private List<PlaceWeatherForecast> placeWeatherForecastList;
+    private PullToRefreshLayout mPullToRefreshLayout;
 
 
     CustomAdapter adapter;
@@ -81,12 +86,34 @@ public class WeatherListFragment extends ListFragment implements
                              Bundle savedInstanceState) {
         int INTERNAL_EMPTY_ID = 0x00ff0001;
         View rootView = inflater.inflate(R.layout.fragment_weather_app_main, container, false);
+
         // (rootView.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
         mList = (ListView) rootView.findViewById(android.R.id.list);
         mListContainer = rootView.findViewById(R.id.listContainer);
         mProgressContainer = rootView.findViewById(R.id.progressContainer);
         mListShown = true;
+
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // This is the View which is created by ListFragment
+        ViewGroup viewGroup = (ViewGroup) view;
+
+        // We need to create a PullToRefreshLayout manually
+        mPullToRefreshLayout = new PullToRefreshLayout(viewGroup.getContext());
+
+
+        // We can now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(getActivity())
+                // We need to insert the PullToRefreshLayout into the Fragment's ViewGroup
+                .insertLayoutInto(viewGroup)
+                // Here we mark just the ListView and it's Empty View as pullable
+                .theseChildrenArePullable(android.R.id.list, android.R.id.empty)
+                .listener(this)
+                .setup(mPullToRefreshLayout);
     }
 
     @Override
@@ -138,11 +165,6 @@ public class WeatherListFragment extends ListFragment implements
 
     }
 
-    public void refresh() {
-        Log.i(TAG, "Refreshin...");
-        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
-        setListShown(false);
-    }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
@@ -154,32 +176,6 @@ public class WeatherListFragment extends ListFragment implements
 
     private void showDetailedWeatherForecast(int position) {
     }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
-        inflater.inflate(R.menu.weather_list_menu, menu);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-
-            case R.id.refresh:
-
-                //onRefresh();
-
-                break;
-        }
-
-        return false;
-
-    }
-
 
     @Override
     public void onFailure(Exception ex) {
@@ -203,6 +199,8 @@ public class WeatherListFragment extends ListFragment implements
         ListView viewById = (ListView) getActivity().findViewById(android.R.id.list);
         viewById.setAdapter(adapter);
         setListShown(true);
+        mPullToRefreshLayout.setRefreshing(false);
+
     }
 
     @Override
@@ -257,6 +255,15 @@ public class WeatherListFragment extends ListFragment implements
 
     public void setListShownNoAnimation(boolean shown) {
         setListShown(shown, false);
+    }
+
+    @Override
+    public void onRefreshStarted(View view) {
+        Log.i(TAG, "Refreshin...");
+        mPullToRefreshLayout.setRefreshing(true);
+        RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+        setListShown(false);
+
     }
 
     static class PlaceWeatherForecastLoader extends RetrofitLoader<List<PlaceWeatherForecast>, WorldWeatherOnline> {

@@ -49,15 +49,15 @@ public abstract class RetrofitLoader<D, R> extends AsyncTaskLoader<Response<D>>
 
         super.onStartLoading();
 
-        if (mCachedResponse != null) {
+      //  if (mCachedResponse != null) {
 
-            deliverResult(mCachedResponse);
-        }
+      //      deliverResult(mCachedResponse);
+      //  }
 
-        if (takeContentChanged() || mCachedResponse == null) {
+      //  if (takeContentChanged() || mCachedResponse == null) {
 
             forceLoad();
-        }
+      //  }
     }
 
     @Override
