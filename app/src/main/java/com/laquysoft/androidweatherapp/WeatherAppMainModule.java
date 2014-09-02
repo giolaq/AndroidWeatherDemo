@@ -12,11 +12,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
-import retrofit.converter.GsonConverter;
-
-/**
- * Created by joaobiriba on 29/08/14.
- */
 
 @Module(
         library = true,

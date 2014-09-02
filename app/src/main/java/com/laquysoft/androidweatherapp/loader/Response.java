@@ -1,29 +1,25 @@
 package com.laquysoft.androidweatherapp.loader;
 
-/**
- * Created by joaobiriba on 29/08/14.
- */
-
 class Response<D> {
 
     private Exception mException;
 
     private D mResult;
 
-    static <D> Response<D> ok(D data){
+    static <D> Response<D> ok(D data) {
 
         Response<D> response = new Response<D>();
         response.mResult = data;
 
-        return  response;
+        return response;
     }
 
-    static <D> Response<D> error(Exception ex){
+    static <D> Response<D> error(Exception ex) {
 
         Response<D> response = new Response<D>();
         response.mException = ex;
 
-        return  response;
+        return response;
     }
 
     public boolean hasError() {

@@ -6,14 +6,6 @@ import android.os.Bundle;
 import android.os.ResultReceiver;
 import android.util.Log;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
-/**
- * Created by joaobiriba on 29/08/14.
- */
 public class WeatherUpdateService extends IntentService {
 
     static final String TAG = WeatherUpdateService.class.getName();

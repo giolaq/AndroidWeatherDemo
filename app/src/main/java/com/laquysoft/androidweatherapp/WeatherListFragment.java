@@ -1,34 +1,20 @@
 package com.laquysoft.androidweatherapp;
 
-import android.app.LoaderManager;
 import android.content.Context;
-import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ListFragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.laquysoft.androidweatherapp.loader.Callback;
@@ -41,10 +27,6 @@ import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationA
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.OnDismissCallback;
 import com.nhaarman.listviewanimations.itemmanipulation.swipedismiss.SwipeDismissAdapter;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,9 +37,7 @@ import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
-/**
- * Created by joaobiriba on 29/08/14.
- */
+
 public class WeatherListFragment extends ListFragment implements
         Callback<List<PlaceWeatherForecast>>, OnDismissCallback, OnRefreshListener {
 
@@ -111,7 +91,7 @@ public class WeatherListFragment extends ListFragment implements
         ActionBarPullToRefresh.from(getActivity())
                 // We need to insert the PullToRefreshLayout into the Fragment's ViewGroup
                 .insertLayoutInto(viewGroup)
-                // Here we mark just the ListView and it's Empty View as pullable
+                        // Here we mark just the ListView and it's Empty View as pullable
                 .theseChildrenArePullable(android.R.id.list, android.R.id.empty)
                 .listener(this)
                 .setup(mPullToRefreshLayout);
@@ -267,7 +247,7 @@ public class WeatherListFragment extends ListFragment implements
     public void onRefreshStarted(View view) {
         Log.i(TAG, "Refreshin...");
 
-       // RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
+        // RetrofitLoaderManager.init(getLoaderManager(), 0, loader, this);
         loader.onContentChanged();
         setListShown(false);
 
@@ -304,7 +284,6 @@ public class WeatherListFragment extends ListFragment implements
             }
             return forecasts;
         }
-
 
 
     }

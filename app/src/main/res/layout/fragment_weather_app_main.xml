@@ -26,14 +26,12 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        xmlns:fab="http://schemas.android.com/apk/res-auto"
+    <FrameLayout xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ptr_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -46,24 +44,22 @@
                 android:layout_height="match_parent"
                 android:drawSelectorOnTop="false"
                 android:divider="@android:color/transparent"
-                android:dividerHeight="10dp"/>
+                android:dividerHeight="10dp" />
 
         </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
 
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/button_floating_action"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
-                android:layout_margin="16dp"
-                android:src="@drawable/ic_action_content_new"
-                fab:fab_colorNormal="@android:color/holo_blue_light"
-                fab:fab_colorPressed="@android:color/holo_blue_bright"/>
-
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/button_floating_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_action_content_new"
+            fab:fab_colorNormal="@android:color/holo_blue_light"
+            fab:fab_colorPressed="@android:color/holo_blue_bright" />
 
 
     </FrameLayout>
-
 
 
 </FrameLayout>

@@ -6,6 +6,5 @@
         android:id="@+id/refresh"
         android:icon="@android:drawable/ic_menu_upload"
         weatherapp:showAsAction="always"
-        android:title="R.id.refresh">
-    </item>
+        android:title="R.id.refresh"></item>
 </menu>

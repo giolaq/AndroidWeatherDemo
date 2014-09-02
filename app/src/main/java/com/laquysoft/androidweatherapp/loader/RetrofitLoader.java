@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.AsyncTaskLoader;
 
-/**
- * Created by joaobiriba on 29/08/14.
- */
 public abstract class RetrofitLoader<D, R> extends AsyncTaskLoader<Response<D>>
         implements SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -56,7 +53,7 @@ public abstract class RetrofitLoader<D, R> extends AsyncTaskLoader<Response<D>>
 
         //if (takeContentChanged() || mCachedResponse == null) {
 
-            forceLoad();
+        forceLoad();
         //}
     }
 
@@ -73,5 +70,6 @@ public abstract class RetrofitLoader<D, R> extends AsyncTaskLoader<Response<D>>
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
         onContentChanged();
     }
+
     public abstract D call(R service, SharedPreferences prefs);
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- File created by the Android Action Bar Style Generator
+<?xml version="1.0" encoding="utf-8"?><!-- File created by the Android Action Bar Style Generator
 
      Copyright (C) 2011 The Android Open Source Project
      Copyright (C) 2012 readyState Software Ltd
@@ -20,17 +19,20 @@
 <resources>
 
     <style name="Theme.Weatherapp" parent="@style/Theme.AppCompat.Light">
-        <item name="android:actionBarItemBackground">@drawable/selectable_background_weatherapp</item>
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_weatherapp
+        </item>
         <item name="android:popupMenuStyle">@style/PopupMenu.Weatherapp</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Weatherapp</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Weatherapp</item>
         <item name="android:actionDropDownStyle">@style/DropDownNav.Weatherapp</item>
         <item name="android:actionBarStyle">@style/ActionBar.Solid.Weatherapp</item>
         <item name="android:actionModeBackground">@drawable/cab_background_top_weatherapp</item>
-        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_weatherapp</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Weatherapp</item>
-        
-        
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_weatherapp
+        </item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Weatherapp
+        </item>
+
+
     </style>
 
     <style name="ActionBar.Solid.Weatherapp" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
@@ -44,7 +46,7 @@
         <item name="android:background">@drawable/ab_transparent_weatherapp</item>
         <item name="android:progressBarStyle">@style/ProgressBar.Weatherapp</item>
     </style>
-    
+
     <!-- this style is only referenced in a Light.DarkActionBar based theme -->
     <style name="Theme.Weatherapp.Widget" parent="@style/Theme.AppCompat">
         <item name="android:popupMenuStyle">@style/PopupMenu.Weatherapp</item>

@@ -4,34 +4,22 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.laquysoft.androidweatherapp.loader.Callback;
-import com.laquysoft.androidweatherapp.loader.RetrofitLoader;
-import com.laquysoft.androidweatherapp.loader.RetrofitLoaderManager;
 import com.laquysoft.androidweatherapp.model.PlaceWeatherForecast;
-import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.inject.Inject;
 
 
 public class WeatherAppMainActivity extends ActionBarActivity implements
@@ -80,7 +68,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     }
 
 
-
     @Override
     public void onFailure(Exception ex) {
         Log.d("PlaceWeatherForecastLoader", "onFailure");
@@ -112,7 +99,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
             public void onClick(DialogInterface dialog, int which) {
                 String place = input.getText().toString().trim();
                 SharedPreferences.Editor editor = prefs.edit();
-                if ( ! city_list.contains(place)) {
+                if (!city_list.contains(place)) {
                     city_list.add(place);
                 } else {
                     Toast.makeText(ctx, place + " already in list", Toast.LENGTH_LONG).show();

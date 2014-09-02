@@ -2,9 +2,7 @@ package com.laquysoft.androidweatherapp.model;
 
 import java.util.List;
 
-/**
- * Created by joaobiriba on 29/08/14.
- */
+
 public class PlaceWeatherForecast {
 
     private Data data;
