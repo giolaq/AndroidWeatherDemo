@@ -22,9 +22,15 @@ Android Weather App uses a number of open source library to work properly:
 
 Using
 --------------
-By Default Android Weather App load weather forecast for to Dublin, London, New York and Barcelona. 
+By Default Android Weather App load weather forecast for to Dublin, London, New York and Barcelona.
 You can add a new city to the list tapping the Floating Action Button and inserting the city name you want in the Input Dialog and tap OK.
 You can swipe left or right on a Card to Dismiss it and to reload forecast you have to pull down
+
+Screenshots
+-------------
+[screenshot1]
+[creenshot2]
+[screenshot3]
 
 ToDo
 --------------
@@ -41,3 +47,6 @@ ToDo
 [Picasso]:http://square.github.io/picasso/
 [FloatingActionButton]:https://github.com/makovkastar/FloatingActionButton
 [ListViewAnimations]:https://github.com/nhaarman/ListViewAnimations
+[screenshot1]:https://raw.githubusercontent.com/joaobiriba/AndroidWeatherDemo/master/screenshots/screen1.png
+[screenshot2]:https://raw.githubusercontent.com/joaobiriba/AndroidWeatherDemo/master/screenshots/screen2.png
+[screenshot3]:https://raw.githubusercontent.com/joaobiriba/AndroidWeatherDemo/master/screenshots/screen3.png
