@@ -197,12 +197,12 @@ public class WeatherListFragment extends ListFragment implements
             String cityToRemove = TextUtils.split(adapter.getItem(position).getData().getRequest().get(0).getQuery(), ",")[0];
             Log.d(TAG, "Dismiss and remove city " + cityToRemove);
             city_list.remove(cityToRemove);
+            adapter.remove(position);
             Log.d(TAG, "city list" + TextUtils.join(",", city_list));
 
             editor.putString("city_list", TextUtils.join(",", city_list)); // Add Array list elements to shared preferences
             editor.commit();
 
-            adapter.remove(position);
 
         }
     }

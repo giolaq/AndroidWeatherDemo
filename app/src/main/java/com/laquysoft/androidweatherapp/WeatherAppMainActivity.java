@@ -33,7 +33,7 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     SharedPreferences prefs;
 
     private static final String KEY = "prefs";
-    private static final String default_cities = "Dublin, London, New York, Barcelona";
+    private static final String default_cities = "Dublin,London,New York,Barcelona";
     private LinkedList<String> city_list;
 
     @Override
@@ -98,6 +98,13 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String place = input.getText().toString().trim();
+
+                String serialized = prefs.getString("city_list", null);
+                if (serialized != null) {
+                    city_list = new LinkedList<String>(Arrays.asList(TextUtils.split(serialized, ",")));
+                    Log.i(TAG, " Reloading shared preferences " + city_list.toString());
+                }
+
                 SharedPreferences.Editor editor = prefs.edit();
                 if (!city_list.contains(place)) {
                     city_list.add(place);

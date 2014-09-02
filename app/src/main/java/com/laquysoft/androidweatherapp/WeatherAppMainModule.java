@@ -29,7 +29,7 @@ public class WeatherAppMainModule {
                 .create();
 
         RestAdapter adapter =
-                new RestAdapter.Builder().setEndpoint("http://api.worldweatheronline.com/free/v1").
+                new RestAdapter.Builder().setEndpoint("https://api.worldweatheronline.com/free/v1").
                         setLogLevel(RestAdapter.LogLevel.FULL).
                         setLog(new RestAdapter.Log() {
                             @Override
