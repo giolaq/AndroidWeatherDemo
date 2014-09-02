@@ -28,9 +28,9 @@ You can swipe left or right on a Card to Dismiss it and to reload forecast you h
 
 Screenshots
 -------------
-[screenshot1]
-[screenshot2]
-[screenshot3]
+![alt][screenshot1]
+![alt][screenshot2]
+![alt][screenshot3]
 
 ToDo
 --------------
