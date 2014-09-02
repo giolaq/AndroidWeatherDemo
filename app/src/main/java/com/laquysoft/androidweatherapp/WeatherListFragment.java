@@ -162,6 +162,8 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public void onFailure(Exception ex) {
         Toast.makeText(getActivity(), "Error: " + ex.getMessage(), Toast.LENGTH_LONG).show();
+        mPullToRefreshLayout.setRefreshComplete();
+        setListShown(true);
 
     }
 
