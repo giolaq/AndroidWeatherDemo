@@ -19,8 +19,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
-            <service android:name="com.laquysoft.androidweatherapp.WeatherUpdateService"></service>
-
         </activity>
     </application>
 
