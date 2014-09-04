@@ -2,9 +2,7 @@ package com.laquysoft.androidweatherapp;
 
 import android.util.Log;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
 import com.laquysoft.androidweatherapp.net.WorldWeatherOnline;
 
 import javax.inject.Singleton;
@@ -24,9 +22,6 @@ public class WeatherAppMainModule {
     @Singleton
     WorldWeatherOnline buildWorldWeatherOnlineRestClient() {
 
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .create();
 
         RestAdapter adapter =
                 new RestAdapter.Builder().setEndpoint("https://api.worldweatheronline.com/free/v1").

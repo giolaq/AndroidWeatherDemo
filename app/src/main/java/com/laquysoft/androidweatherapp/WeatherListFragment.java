@@ -50,13 +50,11 @@ public class WeatherListFragment extends ListFragment implements
 
     PlaceWeatherForecastLoader loader;
 
-    private List<PlaceWeatherForecast> placeWeatherForecastList;
     private PullToRefreshLayout mPullToRefreshLayout;
 
 
     CustomAdapter adapter;
 
-    public ListView mList;
     boolean mListShown;
     View mProgressContainer;
     View mListContainer;
@@ -65,11 +63,8 @@ public class WeatherListFragment extends ListFragment implements
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        int INTERNAL_EMPTY_ID = 0x00ff0001;
         View rootView = inflater.inflate(R.layout.fragment_weather_app_main, container, false);
 
-        // (rootView.findViewById(R.id.internalEmpty)).setId(INTERNAL_EMPTY_ID);
-        mList = (ListView) rootView.findViewById(android.R.id.list);
         mListContainer = rootView.findViewById(R.id.listContainer);
         mProgressContainer = rootView.findViewById(R.id.progressContainer);
         mListShown = true;
@@ -107,10 +102,7 @@ public class WeatherListFragment extends ListFragment implements
 
 
         setHasOptionsMenu(true);
-        ActionBar ab = ((ActionBarActivity) getActivity())
-                .getSupportActionBar();
 
-        placeWeatherForecastList = new LinkedList<PlaceWeatherForecast>();
 
         adapter = new CustomAdapter(getActivity());
         SwingBottomInAnimationAdapter swingBottomInAnimationAdapter = new SwingBottomInAnimationAdapter(new SwipeDismissAdapter(adapter, this));
@@ -134,7 +126,6 @@ public class WeatherListFragment extends ListFragment implements
                 setInitialDelayMillis(INITIAL_DELAY_MILLIS);
 
 
-        // adapter = new CustomAdapter(getActivity(),placeWeatherForecastList);
         setListAdapter(adapter);
 
         setListShown(false);
@@ -152,12 +143,8 @@ public class WeatherListFragment extends ListFragment implements
     public void onListItemClick(ListView l, View v, int position, long id) {
         // TODO Auto-generated method stub
         super.onListItemClick(l, v, position, id);
-        showDetailedWeatherForecast(position);
-
     }
 
-    private void showDetailedWeatherForecast(int position) {
-    }
 
     @Override
     public void onFailure(Exception ex) {
