@@ -35,7 +35,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
     SharedPreferences prefs;
 
-    private static final String KEY = "prefs";
     private static final String default_cities = "Dublin,London,New York,Barcelona";
     private LinkedList<String> city_list;
 
@@ -128,9 +127,6 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
         builder.show();
     }
 
-    public void addCity(View v) {
-        inputPlace();
-    }
 
     @Override
     public void onEvent(WaveGestureEvent waveGestureEvent) {
