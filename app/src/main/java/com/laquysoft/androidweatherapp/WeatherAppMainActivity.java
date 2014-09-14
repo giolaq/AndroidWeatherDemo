@@ -21,9 +21,12 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.snapback.sdk.gesture.wave.WaveGestureEvent;
+import io.snapback.sdk.gesture.wave.WaveGestureListener;
+
 
 public class WeatherAppMainActivity extends ActionBarActivity implements
-        Callback<List<PlaceWeatherForecast>> {
+        Callback<List<PlaceWeatherForecast>>, WaveGestureListener {
 
 
     final static String TAG = WeatherAppMainActivity.class.getName();
@@ -126,6 +129,13 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     }
 
     public void addCity(View v) {
+        inputPlace();
+    }
+
+    @Override
+    public void onEvent(WaveGestureEvent waveGestureEvent) {
+        Log.d(TAG, "Wave!");
+
         inputPlace();
     }
 }

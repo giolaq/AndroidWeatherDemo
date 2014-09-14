@@ -42,6 +42,8 @@ dependencies {
 
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
 
+    files('libs/snapback-android-sdk-0.1.jar')
+
     compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
 
