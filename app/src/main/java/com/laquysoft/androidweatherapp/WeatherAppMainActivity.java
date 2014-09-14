@@ -21,8 +21,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.snapback.sdk.gesture.sequence.adapter.AmbientLightSensorAdapter;
+import io.snapback.sdk.gesture.sequence.adapter.ProximitySensorAdapter;
 import io.snapback.sdk.gesture.wave.WaveGestureEvent;
 import io.snapback.sdk.gesture.wave.WaveGestureListener;
+import io.snapback.sdk.gesture.wave.WaveGestureHandler;
 
 
 public class WeatherAppMainActivity extends ActionBarActivity implements
@@ -37,6 +40,10 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
     private static final String default_cities = "Dublin,London,New York,Barcelona";
     private LinkedList<String> city_list;
+
+    private WaveGestureHandler waveGestureHandler;
+    private ProximitySensorAdapter proximitySensorAdapter;
+    private AmbientLightSensorAdapter ambientLightSensorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,15 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
                     .add(R.id.container, listFragment)
                     .commit();
         }
+
+        waveGestureHandler = new WaveGestureHandler();
+        proximitySensorAdapter = new ProximitySensorAdapter(waveGestureHandler, this);
+        ambientLightSensorAdapter = new AmbientLightSensorAdapter(waveGestureHandler, this);
+        waveGestureHandler.setSensorAdapters(proximitySensorAdapter, ambientLightSensorAdapter);
+
+        waveGestureHandler.register(this);
+        waveGestureHandler.start();
+
 
     }
 
@@ -132,6 +148,11 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
     public void onEvent(WaveGestureEvent waveGestureEvent) {
         Log.d(TAG, "Wave!");
 
-        inputPlace();
+        switch (waveGestureEvent.getType()) {
+            case WaveGestureEvent.SINGLE_WAVE_EVENT_TYPE:
+                inputPlace();
+            default:
+                Log.d(TAG, "Event " + waveGestureEvent.getType());
+        }
     }
 }
