@@ -150,7 +150,12 @@ public class WeatherAppMainActivity extends ActionBarActivity implements
 
         switch (waveGestureEvent.getType()) {
             case WaveGestureEvent.SINGLE_WAVE_EVENT_TYPE:
-                inputPlace();
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        inputPlace();
+                    }
+                });
+
             default:
                 Log.d(TAG, "Event " + waveGestureEvent.getType());
         }
